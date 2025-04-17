@@ -1,0 +1,246 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-image: url("/paulina-herpel-kCISP5iL5To-unsplash (1).jpg");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas:
+    'sidebar main main'
+    'sidebar main main'
+    'sidebar main main'
+    'footer footer footer';
+  height: 100vh;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  position: relative;
+}
+
+main .left-section,
+main .right-section {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+main .vertical-divider {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar .vertical-divider {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  right: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.input1, .input2 {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.input2 {
+  align-self: flex-end;
+  margin-bottom: 1rem;
+}
+
+.inputValue {
+  flex: 1;
+  height: 40px;
+  border: none;
+  padding: 0 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.btn-search {
+  width: 40px;
+  height: 40px;
+  border: none;
+  font-size: 18px;
+  border-radius: 50%;
+  color: #ffffff;
+  background-color: rgba(66, 133, 244, 0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+  background-color: rgba(66, 133, 244, 1);
+  transform: scale(1.05);
+}
+
+.inputValue::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.kd-7 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: #4285f4;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.kd-today {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #4285f4;
+  text-align: center;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.forecast-day {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.forecast-day:hover {
+  transform: translateY(-3px);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+#kdtoday, #weatherinfo, #state {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#kdtoday img, #weatherinfo img, #state img {
+  width: 64px;
+  height: 64px;
+}
+
+.report {
+  background-color: rgba(66, 133, 244, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  margin-top: auto;
+}
+
+.report p {
+  margin: 0;
+  color: #4285f4;
+}
+
+.state {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #4285f4;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'sidebar'
+      'main';
+    height: auto;
+  }
+  
+  .sidebar {
+    padding: 1rem;
+  }
+  
+  main {
+    flex-direction: column;
+  }
+  
+  main .vertical-divider {
+    display: none;
+  }
+  
+  .sidebar .vertical-divider {
+    display: none;
+  }
+}
