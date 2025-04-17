@@ -38,9 +38,10 @@ body::before {
   grid-template-areas:
     'sidebar main main'
     'sidebar main main'
-    'sidebar main main'
-    'footer footer footer';
+    'sidebar main main';
   height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .sidebar {
@@ -54,6 +55,7 @@ body::before {
   position: relative;
   overflow-y: auto;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  height: 100vh;
 }
 
 main {
@@ -62,6 +64,8 @@ main {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(5px);
   position: relative;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 main .left-section,
@@ -71,6 +75,8 @@ main .right-section {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 main .vertical-divider {
@@ -98,6 +104,8 @@ main .vertical-divider {
   border-radius: 30px;
   padding: 0.5rem;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 100%;
 }
 
 .input2 {
@@ -116,10 +124,11 @@ main .vertical-divider {
   background-color: transparent;
   color: #fff;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .btn-search {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border: none;
   font-size: 18px;
@@ -131,6 +140,7 @@ main .vertical-divider {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .btn-search:hover {
@@ -149,6 +159,7 @@ main .vertical-divider {
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 0.5rem;
+  word-break: break-word;
 }
 
 .kd-today {
@@ -156,6 +167,7 @@ main .vertical-divider {
   margin-bottom: 1rem;
   color: #4285f4;
   text-align: center;
+  word-break: break-word;
 }
 
 .card {
@@ -168,6 +180,12 @@ main .vertical-divider {
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
+}
+
+.forecast-container {
+  overflow-y: auto;
 }
 
 .forecast-day {
@@ -183,16 +201,18 @@ main .vertical-divider {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-#kdtoday, #weatherinfo, #state {
+.weather-display {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  word-break: break-word;
 }
 
-#kdtoday img, #weatherinfo img, #state img {
+.weather-display img, #state img {
   width: 64px;
   height: 64px;
+  object-fit: contain;
 }
 
 .report {
@@ -210,6 +230,13 @@ main .vertical-divider {
 }
 
 .state {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.state div:first-child {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   color: #4285f4;
@@ -218,7 +245,29 @@ main .vertical-divider {
   padding-bottom: 0.5rem;
 }
 
+/* Mobile Menu Control */
+.mobile-nav-toggle {
+  display: none;
+  background: rgba(66, 133, 244, 0.8);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  padding: 0.75rem;
+  position: fixed;
+  z-index: 100;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
 /* Responsive design */
+@media (max-width: 992px) {
+  .container {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
@@ -226,21 +275,85 @@ main .vertical-divider {
       'sidebar'
       'main';
     height: auto;
+    overflow-x: hidden;
   }
   
   .sidebar {
+    height: auto;
+    max-height: 100vh;
     padding: 1rem;
+    overflow-y: auto;
   }
   
   main {
     flex-direction: column;
+    height: auto;
+    overflow-y: visible;
   }
   
   main .vertical-divider {
     display: none;
   }
   
+  main .left-section,
+  main .right-section {
+    width: 100%;
+    padding: 1rem;
+  }
+  
   .sidebar .vertical-divider {
     display: none;
+  }
+  
+  .card {
+    max-height: none;
+  }
+  
+  .mobile-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* When viewing in collapsed sidebar mode */
+  .sidebar-collapsed {
+    max-height: 0;
+    padding: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .sidebar-expanded {
+    max-height: 100vh;
+    transition: max-height 0.3s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .kd-7, .kd-today {
+    font-size: 1.2rem;
+  }
+  
+  .btn-search {
+    min-width: 36px;
+    height: 36px;
+  }
+  
+  .inputValue {
+    height: 36px;
+    font-size: 14px;
+  }
+  
+  .weather-display, #state {
+    padding: 1rem;
+  }
+  
+  .forecast-day {
+    padding: 0.75rem;
+  }
+  
+  .weather-display img, #state img {
+    width: 48px;
+    height: 48px;
   }
 }

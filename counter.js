@@ -5,13 +5,16 @@ console.log('Script loaded and executed');
 
 document.querySelector('#app').innerHTML = `
 <div class="container">
-  <div class="sidebar">
+  <button class="mobile-nav-toggle" id="toggleSidebar">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="sidebar" id="sidebar">
     <form class="input1">
       <input type="text" class="inputValue" placeholder="Search City">
       <button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
     </form>
     <h2 class="kd-7">Kaduna 7 Days Forecast</h2>
-    <div id="kd-7" class="card"></div>
+    <div id="kd-7" class="card forecast-container"></div>
     <div class="report">
       <p>Forecast Report</p>
     </div>
@@ -20,9 +23,9 @@ document.querySelector('#app').innerHTML = `
   <main>
     <div class="left-section">
       <h2 class="kd-today">Kaduna</h2>
-      <div id="kdtoday"></div>
-      <div id="state">
-        <div class="state">States Weather Report</div>
+      <div id="kdtoday" class="weather-display"></div>
+      <div id="state" class="state">
+        <div>States Weather Report</div>
       </div>
     </div>
     <div class="right-section">
@@ -30,15 +33,14 @@ document.querySelector('#app').innerHTML = `
         <input type="text" id="inputloc" class="inputValue" placeholder="Search Country">
         <button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
       </form>
-      <div id="weatherinfo"></div>
+      <div id="weatherinfo" class="weather-display"></div>
     </div>
     <div class="vertical-divider"></div>
   </main>
 </div>`;
 
 // Get your API key from OpenWeatherMap
-const API_KEY = '3c45a20ca0793fd7e391e64cd9f5b72d'; // Replace with your actual API key
-
+const API_KEY = '3c45a20ca0793fd7e391e64cd9f5b72d'; 
 async function fetchWeatherData(location) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
 
@@ -291,6 +293,12 @@ document.querySelector('.input1').addEventListener('submit', async (e) => {
       
       // Get and display forecast (real or simulated)
       await getAndDisplayForecast(location, weather, 'kd-7');
+      
+      // If on mobile, close sidebar after search
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.add('sidebar-collapsed');
+        document.getElementById('sidebar').classList.remove('sidebar-expanded');
+      }
     }
   } else {
     console.error('Please enter a valid location');
@@ -316,6 +324,31 @@ document.getElementById('input2').addEventListener('submit', async (e) => {
   }
 });
 
+// Mobile sidebar toggle functionality
+document.getElementById('toggleSidebar').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('sidebar-collapsed')) {
+    sidebar.classList.remove('sidebar-collapsed');
+    sidebar.classList.add('sidebar-expanded');
+  } else {
+    sidebar.classList.add('sidebar-collapsed');
+    sidebar.classList.remove('sidebar-expanded');
+  }
+});
+
+// Handle responsive layout on load and resize
+function handleResponsiveLayout() {
+  const sidebar = document.getElementById('sidebar');
+  if (window.innerWidth <= 768) {
+    sidebar.classList.add('sidebar-collapsed');
+  } else {
+    sidebar.classList.remove('sidebar-collapsed');
+    sidebar.classList.remove('sidebar-expanded');
+  }
+}
+
+window.addEventListener('resize', handleResponsiveLayout);
+
 // Fetch and display weather data for Kaduna on page load
 window.addEventListener('load', async () => {
   const defaultLocation = 'Kaduna';
@@ -340,4 +373,7 @@ window.addEventListener('load', async () => {
 
   updateStateWeather();
   setInterval(updateStateWeather, 5000); // Change weather every 5 seconds
+  
+  // Set initial responsive layout
+  handleResponsiveLayout();
 });
