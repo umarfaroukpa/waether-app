@@ -1,4 +1,3 @@
-// main.js
 import './style.css';
 
 console.log('Script loaded and executed');
